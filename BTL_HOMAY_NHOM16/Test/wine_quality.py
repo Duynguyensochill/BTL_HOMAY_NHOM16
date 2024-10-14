@@ -20,7 +20,7 @@ def ExportFilePickle(model_name, model):
         pickle.dump(model, file)
 
 # Đọc dữ liệu từ tập tin CSV
-red_wine = pd.read_csv('C:/Users/Lenovo/Desktop/BTL_HOMAY_NHOM16/Test/data_set/winequality-red2.csv', sep=';')
+red_wine = pd.read_csv('BTL_HOMAY_NHOM16/Test/data_set/winequality-red2.csv', sep=';')
 
 X = red_wine.drop('quality', axis=1)
 y = red_wine['quality']
