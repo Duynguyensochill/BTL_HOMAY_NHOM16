@@ -52,9 +52,21 @@
         .btn:hover {
             background-color: #218838;
         }
-        .result {
+        #prediction-result {
+            margin-top: 20px;
+            font-size: 20px;
+            font-weight: bold;
+            color: #333;
+            background-color: #e7f3fe;
+            padding: 15px;
+            border-radius: 8px;
+            border: 1px solid #b3d7ff;
+            text-align: center;
+        }
+        #error-message {
             margin-top: 20px;
             font-size: 18px;
+            color: red;
             text-align: center;
         }
     </style>
@@ -127,7 +139,7 @@
             const formData = new FormData(this);
             const data = Object.fromEntries(formData.entries());
 
-            fetch('/', { // Đã sửa đường dẫn từ '/predict' thành '/'
+            fetch('/predict', { // Đã sửa lại thành '/predict'
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
