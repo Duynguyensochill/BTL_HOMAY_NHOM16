@@ -26,7 +26,7 @@ def ExportFilePickle(model_name, model):
         pickle.dump(model, file)  # Lưu mô hình vào file
 
 def load_model(model_type):
-    model_path = f'C:/Users/Lenovo/Desktop/BTL_HOMAY_NHOM16/Test/train_models/{model_type}_model.pkl'
+    model_path = f'BTL_HOMAY_NHOM16/Test/train_models/{model_type}_model.pkl'
     if not os.path.exists(model_path):
         raise FileNotFoundError(f"Mô hình {model_type} không tồn tại tại {model_path}.")
     with open(model_path, 'rb') as file:
