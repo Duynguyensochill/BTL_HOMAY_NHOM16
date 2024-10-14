@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dự đoán loại rượu</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            width: 50%;
+            margin: auto;
+            overflow: hidden;
+        }
+
+        h1 {
+            text-align: center;
+            padding: 20px 0;
+        }
+
+        form {
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: bold;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 8px;
+            box-sizing: border-box;
+        }
+
+        .form-group select {
+            width: 100%;
+            padding: 8px;
+        }
+
+        .btn {
+            display: block;
+            width: 100%;
+            background-color: #28a745;
+            color: white;
+            padding: 10px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .btn:hover {
+            background-color: #218838;
+        }
+
+        .result {
+            margin-top: 20px;
+            font-size: 18px;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Dự đoán loại rượu</h1>
+        <form id="prediction-form">
+            <div class="form-group">
+                <label for="feature1">Chỉ số độ axit cố định:</label>
+                <input type="number" step="any" name="fixedAcidity" required>
+            </div>
+            <div class="form-group">
+                <label for="feature2">Chỉ số độ axit dễ bay hơi:</label>
+                <input type="number" step="any" name="volatileAcidity" required>
+            </div>
+            <div class="form-group">
+                <label for="feature1">Chỉ số Axit Citric:</label>
+                <input type="number" step="any" name="citricAcid" required>
+            </div>
+            <div class="form-group">
+                <label for="feature2">Chỉ số Đường dư:</label>
+                <input type="number" step="any" name="residualSugar" required>
+            </div>
+            <div class="form-group">
+                <label for="feature1">Chỉ số clorua:</label>
+                <input type="number" step="any" name="chlorides" required>
+            </div>
+            <div class="form-group">
+                <label for="feature1">Chỉ số lưu huỳnh đioxit tự do:</label>
+                <input type="number" step="any" name="freeSulfurDioxide" required>
+            </div>
+            <div class="form-group">
+                <label for="feature2">Chỉ số tổng lưu huỳnh đioxit:</label>
+                <input type="number" step="any" name="totalSulfurDioxide" required>
+            </div>
+            <div class="form-group">
+                <label for="feature1">Chỉ số Tỉ trọng:</label>
+                <input type="number" step="any" name="density" required>
+            </div>
+            <div class="form-group">
+                <label for="feature2">Chỉ số PH:</label>
+                <input type="number" step="any" name="pH" required>
+            </div>
+            <div class="form-group">
+                <label for="feature1">Chỉ số sunfat:</label>
+                <input type="number" step="any" name="sulphates" required>
+            </div>
+            <div class="form-group">
+                <label for="feature2">Chỉ số nồng độ cồn:</label>
+                <input type="number" step="any" name="alcohol" required>
+            </div>
+            <div class="form-group">
+                <label for="model">Chọn mô hình:</label>
+                <select name="model">
+                    <option value="Linear Regression">Linear Regression</option>
+                    <option value="Lasso">Lasso Regression</option>
+                    <option value="Neuron Network">Neural Network</option>
+                </select>
+            </div>
+
+            <button type="submit" class="btn">Dự đoán</button>
+        </form>
+        <div id="prediction-result"></div>
+        <div id="error-message"></div>
+    </div>
+    <script>
+        document.getElementById('prediction-form').addEventListener('submit', function (event) {
+            event.preventDefault(); // Ngăn chặn tải lại trang
+
+            const formData = new FormData(this);
+            const data = Object.fromEntries(formData.entries());
+
+            fetch('/predict', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data)
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.error) {
+                        document.getElementById('error-message').innerText = data.error;
+                        document.getElementById('prediction-result').innerText = '';
+                    } else {
+                        document.getElementById('prediction-result').innerText = `Dự đoán Chất lượng rượu: ${data.prediction}`;
+                        document.getElementById('error-message').innerText = '';
+                    }
+                })
+                .catch(error => {
+                    document.getElementById('error-message').innerText = 'Đã xảy ra lỗi: ' + error;
+                });
+        });
+    </script>
+</body>
+
+</html>
