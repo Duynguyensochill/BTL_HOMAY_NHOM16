@@ -27,3 +27,4 @@ Werkzeug==3.0.4
 gunicorn
 seaborn
 qrcode
+imblearn
